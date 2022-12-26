@@ -1,8 +1,8 @@
 import { all } from "redux-saga/effects";
-import { signInWatcher } from "./signIn/signInSaga";
+import { fetchSignInWatcher } from "./signIn/signInSaga";
 
 export function* rootWatcher() {
     yield all([
-        signInWatcher(),
+        fetchSignInWatcher(),
     ])
 }
