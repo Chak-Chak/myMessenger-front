@@ -1,16 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
-import { SignIn } from './src/pages/SignInPage';
+import { MainContainer } from './src/navigation/MainContainer';
+import { SignInScreen } from './src/navigation/screens/auth/SignInScreen';
 import { store } from './src/store/mergeReducers';
 
 export default function App() {
+
   return (
     <Provider store={store}>
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <SignIn />
-      </View>
+      <StatusBar style="auto" />
+      {1 > 0 ? <SignInScreen /> : <MainContainer />}
     </Provider>
   );
 }

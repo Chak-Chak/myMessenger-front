@@ -6,20 +6,19 @@ import {
     fetchSignIn,
     setEmail,
     setPassword
-} from "../store/actions/signInActions.js";
+} from "../../../store/actions/signInActions.js";
 import styles from "./SignInStyles.js";
 
-const SignInLayout = ({ signInInfo, setEmail, setPassword, fetchSignIn }) => {
+const SignInScreenLayout = ({ signInInfo, setEmail, setPassword, fetchSignIn }) => {
     useEffect(() => {
         setEmail("");
         setPassword("");
     }, [])
     const signInHandler = () => {
         fetchSignIn(signInInfo)
-        //Alert.alert(signInInfo.email + " " + signInInfo.password);
     }
     return (
-        <View style={styles.modal}>
+        <View style={[styles.modal, { flex: 1, alignItem: 'center', justifyContent: 'center' }]}>
             <Text style={[styles.headerText, { marginBottom: 30 }]}>Войти</Text>
             <View style={{ flex: 1, flexDirection: 'row', borderWidth: 2, borderRadius: 20, borderColor: 'rgba(40, 0, 255, 1)', maxHeight: 60, marginBottom: 10, padding: 10 }}>
                 <Text style={styles.defaultText}>email:</Text>
@@ -45,7 +44,7 @@ const mapDispatchToProps = (dispatch) =>
         dispatch
     );
 
-export const SignIn = connect(
+export const SignInScreen = connect(
     mapStateToProps,
     mapDispatchToProps
-)(SignInLayout);
+)(SignInScreenLayout);

@@ -1,0 +1,5 @@
+{
+    "reactSnippets.settings.prettierEnabled": false,
+    "editor.unusualLineTerminators": "prompt",
+    "editor.formatOnSave": true
+}
