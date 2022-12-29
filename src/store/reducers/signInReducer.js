@@ -1,8 +1,9 @@
-import { SET_EMAIL, SET_PASSWORD } from "../types/signInTypes";
+import { SET_EMAIL, SET_PASSWORD, UPDATE_FETCH_SIGN_IN_RUNNING } from "../types/signInTypes";
 
 const INITIAL_STATE = {
     email: "",
     password: "",
+    fetchSignInRunning: false,
 };
 
 export const signInReducer = (state = INITIAL_STATE, action) => {
@@ -16,6 +17,11 @@ export const signInReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 password: action.value,
+            }
+        case UPDATE_FETCH_SIGN_IN_RUNNING:
+            return {
+                ...state,
+                fetchSignInRunning: action.value,
             }
         default: return state;
     }

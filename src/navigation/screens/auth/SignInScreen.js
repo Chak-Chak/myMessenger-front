@@ -1,7 +1,11 @@
-import { useEffect } from "react";
-import { Button, Text, TextInput, View } from "react-native";
+import * as SecureStore from "expo-secure-store";
+import { useEffect, useState } from "react";
+import { Alert, Text, View } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { CustomButton } from "../../../components/UI/button.js";
+import { Input } from "../../../components/UI/input.js";
 import {
     fetchSignIn,
     setEmail,
@@ -14,21 +18,46 @@ const SignInScreenLayout = ({ signInInfo, setEmail, setPassword, fetchSignIn }) 
         setEmail("");
         setPassword("");
     }, [])
+
+    const [token, setToken] = useState('');
+
     const signInHandler = () => {
         fetchSignIn(signInInfo)
     }
+
+    async function getAccessToken() {
+        let result = await SecureStore.getItemAsync('accessToken');
+        if (result) {
+            setToken(result);
+            //console.log(result);
+        } else {
+            Alert.alert('Токена не существует =(')
+        }
+    }
+
+    async function getRefreshToken() {
+        let result = await SecureStore.getItemAsync('refreshToken');
+        if (result) {
+            setToken(result);
+        } else {
+            Alert.alert('Токена не существует =(')
+        }
+    }
+
+
     return (
-        <View style={[styles.modal, { flex: 1, alignItem: 'center', justifyContent: 'center' }]}>
+        <View style={[styles.modal]}>
             <Text style={[styles.headerText, { marginBottom: 30 }]}>Войти</Text>
-            <View style={{ flex: 1, flexDirection: 'row', borderWidth: 2, borderRadius: 20, borderColor: 'rgba(40, 0, 255, 1)', maxHeight: 60, marginBottom: 10, padding: 10 }}>
-                <Text style={styles.defaultText}>email:</Text>
-                <TextInput maxLength={20} style={styles.input} onChangeText={(e) => { setEmail(e) }}></TextInput>
+            <View style={{ marginBottom: 15, width: '80%', alignSelf: 'center' }}>
+                <Input label="email" maxLength={30} onChangeTextFunc={setEmail} />
             </View>
-            <View style={{ flex: 1, flexDirection: 'row', borderWidth: 2, borderRadius: 20, borderColor: 'rgba(40, 0, 255, 1)', maxHeight: 60, marginBottom: 10, padding: 10 }}>
-                <Text style={styles.defaultText}>пароль:</Text>
-                <TextInput maxLength={20} secureTextEntry={true} style={styles.input} onChangeText={(e) => { setPassword(e) }}></TextInput>
+            <View style={{ marginBottom: 15, width: '80%', alignSelf: 'center' }}>
+                <Input label="пароль" maxLength={30} onChangeTextFunc={setPassword} secureTextEntry={true} />
             </View>
-            <Button title="Вход" style={{ borderRadius: 40 }} onPress={() => signInHandler()}></Button>
+            <View style={{ width: '80%', height: 50, alignSelf: 'center', alignItems: 'center' }}>
+                {signInInfo.fetchSignInRunning ? <Ionicons name="battery-half-outline" size={50}></Ionicons> : <CustomButton label="Вход" fontSize={24} onPress={signInHandler} />}
+            </View>
+            <Text>{signInInfo.fetchSignInRunning}</Text>
         </View >
     )
 };

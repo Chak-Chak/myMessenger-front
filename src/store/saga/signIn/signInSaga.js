@@ -1,11 +1,11 @@
-import { Alert } from "react-native";
-import { call, takeEvery } from "redux-saga/effects";
+import * as SecureStore from "expo-secure-store";
+import { call, put, takeEvery } from "redux-saga/effects";
+import { UpdateFetchSignInRunning } from "../../actions/signInActions";
 import { FETCH_SIGN_IN } from "../../types/signInTypes";
 
 const CreateToken = (email, password) => {
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Cookie", "refreshToken=mfQ%2F2XPaTHt8vchclUWopRhuW%2FiCeIPIwKaR6ogAlsIA80%2BC%2FGEyrCtsHymMowqR4E77Ftfw54q%2Fx7LDnQyK7g%3D%3D");
 
     let raw = JSON.stringify({
         "email": email,
@@ -19,23 +19,31 @@ const CreateToken = (email, password) => {
         redirect: 'follow'
     };
 
-    return fetch("http://10.0.2.2:5194/users/login", requestOptions);
+    return fetch("http://10.0.2.2:5194/users/login", requestOptions).catch(error => console.log('error', error));
     /*.then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));*/
 }
 
 function* fetchSignInWorker({ info }) {
+    yield put(UpdateFetchSignInRunning(true))
     //Alert.alert(info.email + " " + info.password)
     const data = yield call(
         CreateToken,
         info.email,
         info.password
     );
-    if (data) {
+    if (data.status == 200) {
         const json = yield call(() => new Promise((res) => res(data.json())));
-        Alert.alert(json.result.token);
+        SecureStore.setItemAsync('accessToken', json.result.token);
+        //console.log(json.result.refresh.token)
+        SecureStore.setItemAsync('refreshToken', json.result.refresh.token);
     }
+    else {
+        const json = yield call(() => new Promise((res) => res(data.json())));
+        console.log(json);
+    }
+    yield put(UpdateFetchSignInRunning(false))
 }
 
 export function* fetchSignInWatcher() {
