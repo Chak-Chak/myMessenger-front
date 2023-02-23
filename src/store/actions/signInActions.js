@@ -1,4 +1,4 @@
-import { FETCH_SIGN_IN, SET_EMAIL, SET_PASSWORD, UPDATE_FETCH_SIGN_IN_RUNNING } from "../types/signInTypes";
+import { FETCH_SIGN_IN, SET_EMAIL, SET_PASSWORD, UPDATE_FETCH_SIGN_IN_RUNNING, UPDATE_IS_TOKENS_EXIST } from "../types/signInTypes";
 
 export const setEmail = (value) => ({
     type: SET_EMAIL,
@@ -17,5 +17,10 @@ export const fetchSignIn = (info) => ({
 
 export const UpdateFetchSignInRunning = (value) => ({
     type: UPDATE_FETCH_SIGN_IN_RUNNING,
+    value
+})
+
+export const UpdateIsTokensExist = (value) => ({
+    type: UPDATE_IS_TOKENS_EXIST,
     value
 })

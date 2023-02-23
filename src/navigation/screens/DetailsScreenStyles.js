@@ -1,10 +1,11 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../../constans";
 
 export default StyleSheet.create({
     body: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: "#c9c9c9",
+        backgroundColor: COLORS.primary,
         width: '80%',
         justifyContent: "flex-start",
     },

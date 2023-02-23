@@ -1,7 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { COLORS } from "../../../constans";
 
-export const CustomButton = ({ label = 'Заголовок', fontSize = 16, onPress }) => {
-    const backgroundColor = 'rgba(0, 8, 255, 0.8)';
+export const CustomButton = ({ label = 'Заголовок', fontSize = 16, onPress, backgroundColor = 'COLORS.secondary' }) => {
+    //const backgroundColor = 'rgba(0, 8, 255, 0.8)';
 
     return (
         <TouchableOpacity onPress={() => onPress()} style={[styles.container, { backgroundColor: backgroundColor }]}>
@@ -16,9 +17,10 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         borderRadius: 5,
+        backgroundColor: COLORS.primary,
     },
     text: {
-        color: '#fff',
+        color: COLORS.white,
         alignSelf: 'center',
     }
 });

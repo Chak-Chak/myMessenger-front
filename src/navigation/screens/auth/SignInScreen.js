@@ -4,6 +4,7 @@ import { Alert, Text, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { COLORS } from "../../../../constans.js";
 import { CustomButton } from "../../../components/UI/button.js";
 import { Input } from "../../../components/UI/input.js";
 import {
@@ -17,6 +18,8 @@ const SignInScreenLayout = ({ signInInfo, setEmail, setPassword, fetchSignIn }) 
     useEffect(() => {
         setEmail("");
         setPassword("");
+        //SecureStore.setItemAsync('accessToken', '');
+        //SecureStore.setItemAsync('refreshToken', '');
     }, [])
 
     const [token, setToken] = useState('');
@@ -44,6 +47,15 @@ const SignInScreenLayout = ({ signInInfo, setEmail, setPassword, fetchSignIn }) 
         }
     }
 
+    async function resetAccessToken() {
+        await SecureStore.setItemAsync('accessToken', "");
+        UpdateIsTokensExist(false);
+    }
+
+    async function resetRefreshToken() {
+        await SecureStore.setItemAsync('refreshToken', "");
+        UpdateIsTokensExist(false);
+    }
 
     return (
         <View style={[styles.modal]}>
@@ -55,9 +67,21 @@ const SignInScreenLayout = ({ signInInfo, setEmail, setPassword, fetchSignIn }) 
                 <Input label="пароль" maxLength={30} onChangeTextFunc={setPassword} secureTextEntry={true} />
             </View>
             <View style={{ width: '80%', height: 50, alignSelf: 'center', alignItems: 'center' }}>
-                {signInInfo.fetchSignInRunning ? <Ionicons name="battery-half-outline" size={50}></Ionicons> : <CustomButton label="Вход" fontSize={24} onPress={signInHandler} />}
+                {signInInfo.fetchSignInRunning ? <Ionicons name="battery-half-outline" size={50}></Ionicons> : <CustomButton label="Вход" fontSize={24} onPress={signInHandler} backgroundColor={COLORS.secondary} />}
             </View>
-            <Text>{signInInfo.fetchSignInRunning}</Text>
+            {/*<Text>{token}</Text>
+            <View style={{ width: '80%', height: 50, alignSelf: 'center', alignItems: 'center', marginBottom: 10 }}>
+                <CustomButton label="Получить access токен" fontSize={24} onPress={getAccessToken} />
+            </View>
+            <View style={{ width: '80%', height: 50, alignSelf: 'center', alignItems: 'center', marginBottom: 10 }}>
+                <CustomButton label="Получить refresh токен" fontSize={24} onPress={getRefreshToken} />
+            </View>
+            <View style={{ width: '80%', height: 50, alignSelf: 'center', alignItems: 'center', marginBottom: 10 }}>
+                <CustomButton label="Очистить access токен" fontSize={24} onPress={resetAccessToken} backgroundColor="red" />
+            </View>
+            <View style={{ width: '80%', height: 50, alignSelf: 'center', alignItems: 'center', marginBottom: 10 }}>
+                <CustomButton label="Очистить refresh токен" fontSize={24} onPress={resetRefreshToken} backgroundColor="red" />
+    </View>*/}
         </View >
     )
 };

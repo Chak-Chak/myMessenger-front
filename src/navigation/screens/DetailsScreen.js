@@ -1,26 +1,27 @@
 import { Text, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { COLORS } from "../../../constans";
+import { UpdateIsTokensExist } from "../../store/actions/signInActions";
+import * as SecureStore from "expo-secure-store";
+import { CustomButton } from "../../components/UI/button";
+import { useEffect } from "react";
 
-const DetailsScreenLayout = ({ navigation }) => {
-    /*useEffect(() => {
+const DetailsScreenLayout = ({ navigation, UpdateIsTokensExist }) => {
+    useEffect(() => {
+        console.log("ЗАГРУЗКА ДЕТАЛЕЙ");
     }, [])
-    const [token, setToken] = useState("");
-    const [refresh, setRefresh] = useState("");*/
+    async function resetAccessToken() {
+        await SecureStore.setItemAsync('accessToken', "");
+        await SecureStore.setItemAsync('refreshToken', "");
+        UpdateIsTokensExist(false);
+    }
     return (
-        /*<View style={styles.body}>
-            <Text style={[styles.headerText]}>Инфо</Text>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-                <Text style={styles.defaultText}>Токен: </Text>
-                <Text style={styles.defaultText}>{token}</Text>
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: COLORS.primary }}>
+            <Text style={{ fontSize: 24, color: COLORS.white }}>Details Screen</Text>
+            <View style={{ width: '80%', height: 50, alignSelf: 'center', alignItems: 'center', marginBottom: 10 }}>
+                <CustomButton label="Выйти" fontSize={24} onPress={resetAccessToken} backgroundColor={COLORS.secondary} />
             </View>
-            <View style={{ flex: 1, flexDirection: 'row', backgroundColor: "red" }}>
-                <Text style={styles.defaultText}>Рефреш токен: </Text>
-                <Text style={styles.defaultText}>{refresh}</Text>
-            </View>
-        </View >*/
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <Text style={{ fontSize: 24 }}>Details Screen</Text>
         </View>
     )
 };
@@ -32,7 +33,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) =>
     bindActionCreators(
-        {},
+        { UpdateIsTokensExist },
         dispatch
     );
 

@@ -1,9 +1,10 @@
-import { SET_EMAIL, SET_PASSWORD, UPDATE_FETCH_SIGN_IN_RUNNING } from "../types/signInTypes";
+import { SET_EMAIL, SET_PASSWORD, UPDATE_FETCH_SIGN_IN_RUNNING, UPDATE_IS_TOKENS_EXIST } from "../types/signInTypes";
 
 const INITIAL_STATE = {
     email: "",
     password: "",
     fetchSignInRunning: false,
+    isTokensExist: false,
 };
 
 export const signInReducer = (state = INITIAL_STATE, action) => {
@@ -22,6 +23,11 @@ export const signInReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 fetchSignInRunning: action.value,
+            }
+        case UPDATE_IS_TOKENS_EXIST:
+            return {
+                ...state,
+                isTokensExist: action.value,
             }
         default: return state;
     }

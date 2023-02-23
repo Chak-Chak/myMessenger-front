@@ -1,6 +1,6 @@
 import * as SecureStore from "expo-secure-store";
 import { call, put, takeEvery } from "redux-saga/effects";
-import { UpdateFetchSignInRunning } from "../../actions/signInActions";
+import { UpdateFetchSignInRunning, UpdateIsTokensExist } from "../../actions/signInActions";
 import { FETCH_SIGN_IN } from "../../types/signInTypes";
 
 const CreateToken = (email, password) => {
@@ -33,16 +33,19 @@ function* fetchSignInWorker({ info }) {
         info.email,
         info.password
     );
-    if (data.status == 200) {
-        const json = yield call(() => new Promise((res) => res(data.json())));
-        SecureStore.setItemAsync('accessToken', json.result.token);
-        //console.log(json.result.refresh.token)
-        SecureStore.setItemAsync('refreshToken', json.result.refresh.token);
-    }
-    else {
-        const json = yield call(() => new Promise((res) => res(data.json())));
-        console.log(json);
-    }
+    if (data) {
+        if (data.status == 200) {
+            const json = yield call(() => new Promise((res) => res(data.json())));
+            SecureStore.setItemAsync('accessToken', json.result.token);
+            //console.log(json.result.refresh.token)
+            SecureStore.setItemAsync('refreshToken', json.result.refresh.token);
+            yield put(UpdateIsTokensExist(true));
+        }
+        else {
+            const json = yield call(() => new Promise((res) => res(data.json())));
+            console.log(json);
+        }
+    } else { console.log('Server is not responding...') }
     yield put(UpdateFetchSignInRunning(false))
 }
 

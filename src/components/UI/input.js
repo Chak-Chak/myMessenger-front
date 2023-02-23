@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
+import { COLORS } from "../../../constans";
 
 export const Input = ({ label = 'Заголовок', maxLength = 20, onChangeTextFunc, secureTextEntry = false }) => {
-    const defaultInputColor = 'rgba(0, 0, 0, 0.7)';
-    const focusedInputColor = 'rgba(0, 8, 255, 0.8)';
+    const defaultInputColor = COLORS.white;
+    const focusedInputColor = COLORS.secondary;
     const [inputColor, setinputColor] = useState(defaultInputColor);
     return (
         <View style={styles.container}>
@@ -21,8 +22,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 16,
-        backgroundColor: '#fff',
-        color: 'rgba(0, 0, 0, 0.7)',
+        backgroundColor: COLORS.primary,
         position: 'absolute',
         top: -10,
         left: 10,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     },
     input: {
         borderWidth: 2,
-        //borderColor: 'rgba(0, 0, 0, 0.7)',
+        color: COLORS.white,
         borderStyle: "solid",
         borderRadius: 5,
         fontSize: 16,
