@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import { UpdateFetchGetMyConversationsIsRunning } from "../../actions/conversationsActions";
+import { UpdateConversationsList, UpdateFetchGetMyConversationsIsRunning } from "../../actions/conversationsActions";
 import { FETCH_GET_MY_CONVERSATIONS } from "../../types/conversationsTypes";
 
 
@@ -24,8 +24,9 @@ function* fetchGetMyConversationsWorker({ info }) {
         info.accessToken,
     );
     const json = yield call(() => new Promise((res) => res(data.json())));
-    console.log(json);
-    //yield put(UpdateFetchGetMyConversationsIsRunning(false));
+    //console.log(json.result);
+    yield put(UpdateConversationsList(json.result));
+    yield put(UpdateFetchGetMyConversationsIsRunning(false));
 }
 
 export function* fetchGetMyConversationsWatcher() {

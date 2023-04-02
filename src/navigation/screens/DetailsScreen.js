@@ -9,7 +9,7 @@ import { useEffect } from "react";
 
 const DetailsScreenLayout = ({ navigation, UpdateIsTokensExist }) => {
     useEffect(() => {
-        console.log("ЗАГРУЗКА ДЕТАЛЕЙ");
+        //console.log("ЗАГРУЗКА ДЕТАЛЕЙ");
     }, [])
     async function resetAccessToken() {
         await SecureStore.setItemAsync('accessToken', "");
@@ -20,7 +20,7 @@ const DetailsScreenLayout = ({ navigation, UpdateIsTokensExist }) => {
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: COLORS.primary }}>
             <Text style={{ fontSize: 24, color: COLORS.white }}>Details Screen</Text>
             <View style={{ width: '80%', height: 50, alignSelf: 'center', alignItems: 'center', marginBottom: 10 }}>
-                <CustomButton label="Выйти" fontSize={24} onPress={resetAccessToken} backgroundColor={COLORS.secondary} />
+                <CustomButton label="Выйти" fontSize={24} onPress={resetAccessToken} backgroundColor={COLORS.secondary} style={{ width: 100 }} />
             </View>
         </View>
     )

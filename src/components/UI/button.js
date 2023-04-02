@@ -1,11 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { COLORS } from "../../../constans";
 
-export const CustomButton = ({ label = 'Заголовок', fontSize = 16, onPress, backgroundColor = 'COLORS.secondary' }) => {
+export const CustomButton = ({ label = 'Заголовок', fontSize = 16, onPress = () => { }, backgroundColor = 'COLORS.secondary', style = {} }) => {
     //const backgroundColor = 'rgba(0, 8, 255, 0.8)';
 
     return (
-        <TouchableOpacity onPress={() => onPress()} style={[styles.container, { backgroundColor: backgroundColor }]}>
+        <TouchableOpacity onPress={() => onPress()} style={[styles.container, { backgroundColor: backgroundColor }, style]}>
             <Text style={[styles.text, { fontSize: fontSize }]}>{label}</Text>
         </TouchableOpacity>
     )
@@ -13,8 +13,6 @@ export const CustomButton = ({ label = 'Заголовок', fontSize = 16, onPr
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: '100%',
         justifyContent: 'center',
         borderRadius: 5,
         backgroundColor: COLORS.primary,

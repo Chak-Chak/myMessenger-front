@@ -1,0 +1,2 @@
+export const FETCH_GET_MY_INFO = "FETCH_GET_MY_INFO";
+export const UPDATE_MY_INFO = "UPDATE_MY_INFO";

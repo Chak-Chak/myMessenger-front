@@ -9,20 +9,29 @@ import { UpdateIsTokensExist } from "../store/actions/signInActions";
 import * as SecureStore from "expo-secure-store";
 // Screens
 import { DetailsScreen } from "./screens/DetailsScreen";
-import { MessagesScreen } from "./screens/MessagesScreen";
 import { SignInScreen } from "./screens/auth/SignInScreen";
-import { COLORS } from "../../constans";
-
-// Screen names
-const detailsName = 'Другое';
-const messagesName = 'Сообщения';
+import { COLORS, TAB_NAMES } from "../../constans";
+import { ConversationsContainer } from "./ConversationsContainer";
+import { fetchGetMyInfo } from "../store/actions/myInfoAction";
 
 const Tab = createBottomTabNavigator();
 
-export const MainContainerLayout = ({ signInInfo, UpdateIsTokensExist }) => {
+export const MainContainerLayout = ({ conv, signInInfo, UpdateIsTokensExist, fetchGetMyInfo }) => {
     useEffect(() => {
         CheckTokens();
+        if (signInInfo.isTokensExist) {
+            getAccessToken().then((value) => fetchGetMyInfo({ accessToken: value }));
+        }
     }, [signInInfo.isTokensExist])
+
+    /*useEffect(() => {
+        console.log("Id: ", conv.activeConversationId, " SenderId: ", conv.senderId, " ReceiverId: ", conv.receiverId);
+    })*/ //DEBUG CONSOLE LOG
+
+    async function getAccessToken() {
+        let access = await SecureStore.getItemAsync('accessToken');
+        return access;
+    }
 
     async function CheckTokens() {
         let tempTokenExist = true;
@@ -31,7 +40,6 @@ export const MainContainerLayout = ({ signInInfo, UpdateIsTokensExist }) => {
         if (!access) tempTokenExist = false;
         if (!refresh) tempTokenExist = false;
         UpdateIsTokensExist(tempTokenExist);
-        //console.log(signInInfo.isTokensExist);
     }
 
     return (
@@ -39,15 +47,15 @@ export const MainContainerLayout = ({ signInInfo, UpdateIsTokensExist }) => {
             {signInInfo.isTokensExist ?
                 < NavigationContainer >
                     <Tab.Navigator
-                        initialRouteName={messagesName}
+                        initialRouteName={TAB_NAMES.conversationsTabName}
                         screenOptions={({ route }) => ({
                             tabBarIcon: ({ focused, color, size }) => {
                                 let iconName;
                                 let rn = route.name;
 
-                                if (rn === messagesName) {
+                                if (rn === TAB_NAMES.conversationsTabName) {
                                     iconName = focused ? 'mail-outline' : 'mail-outline';
-                                } else if (rn === detailsName) {
+                                } else if (rn === TAB_NAMES.detailsTabName) {
                                     iconName = focused ? 'list-outline' : 'list-outline';
                                 }
 
@@ -62,8 +70,8 @@ export const MainContainerLayout = ({ signInInfo, UpdateIsTokensExist }) => {
                         })}
                     >
 
-                        <Tab.Screen name={messagesName} component={MessagesScreen} />
-                        <Tab.Screen name={detailsName} component={DetailsScreen} />
+                        <Tab.Screen name={TAB_NAMES.conversationsTabName} component={ConversationsContainer} />
+                        <Tab.Screen name={TAB_NAMES.detailsTabName} component={DetailsScreen} />
                     </Tab.Navigator >
                 </NavigationContainer > : <SignInScreen />}
         </>
@@ -72,12 +80,13 @@ export const MainContainerLayout = ({ signInInfo, UpdateIsTokensExist }) => {
 
 const mapStateToProps = (state) => {
     const signInInfo = state.signInReducer;
-    return { signInInfo };
+    const conv = state.conversationsReducer;
+    return { signInInfo, conv };
 };
 
 const mapDispatchToProps = (dispatch) =>
     bindActionCreators(
-        { UpdateIsTokensExist },
+        { UpdateIsTokensExist, fetchGetMyInfo },
         dispatch
     );
 
