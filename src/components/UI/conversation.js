@@ -51,7 +51,7 @@ export const ConversationLayout = ({ myInfo, data, userData, onPress }) => {
                         </View>
                         <View style={[styles.last_message_wrapper]}>
                             <Text numberOfLines={2} style={styles.last_message}>{data.lastMessageData.messageText}</Text>
-                            <Text numberOfLines={1} style={styles.new_messages}>1</Text>
+                            {/*<Text numberOfLines={1} style={styles.new_messages}>1</Text>*/}
                         </View>
                     </View>
                 </View>
