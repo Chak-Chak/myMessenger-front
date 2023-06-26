@@ -61,10 +61,10 @@ const SignInScreenLayout = ({ signInInfo, setEmail, setPassword, fetchSignIn }) 
         <View style={[styles.modal]}>
             <Text style={[styles.headerText, { marginBottom: 30 }]}>Войти</Text>
             <View style={{ marginBottom: 15, width: '80%', height: 40, alignSelf: 'center' }}>
-                <Input label="email" maxLength={30} onChangeTextFunc={setEmail} />
+                <Input label="email" style={{ height: 45 }} maxLength={30} onChangeTextFunc={setEmail} />
             </View>
             <View style={{ marginBottom: 15, width: '80%', height: 40, alignSelf: 'center' }}>
-                <Input label="пароль" maxLength={30} onChangeTextFunc={setPassword} secureTextEntry={true} />
+                <Input label="пароль" style={{ height: 45 }} maxLength={30} onChangeTextFunc={setPassword} secureTextEntry={true} />
             </View>
             <View style={{ width: '80%', height: 50, alignSelf: 'center', alignItems: 'center' }}>
                 {signInInfo.fetchSignInRunning ? <Ionicons name="battery-half-outline" size={50}></Ionicons> : <CustomButton label="Вход" fontSize={24} onPress={signInHandler} backgroundColor={COLORS.secondary} style={{ width: '100%', height: 50 }} />}

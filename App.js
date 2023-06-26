@@ -12,7 +12,7 @@ export default function App() {
   let ws = null;
 
   useEffect(() => {
-    ws = new WebSocket('ws://10.0.2.2:5194/ws');
+    /*ws = new WebSocket('ws://10.0.2.2:5194/ws');
 
     ws.onopen = () => {
       //ws.send('Connected');
@@ -31,11 +31,11 @@ export default function App() {
     ws.onclose = e => {
       console.log(e.code, e.reason);
       Alert.alert("Connection is closed...");
-    }
+    }*/
   }, [])
 
   const onPressHandker = () => {
-    ws.send('GetConversations');
+    //ws.send('GetConversations');
   }
 
   const appState = useRef(AppState.currentState);
@@ -48,11 +48,11 @@ export default function App() {
   return (
     <Provider store={store}>
       <StatusBar style="light" translucent={true} />
-      <View style={{ height: '100%', width: '100%', backgroundColor: 'black', justifyContent: "center" }}>
+      {/*<View style={{ height: '100%', width: '100%', backgroundColor: 'black', justifyContent: "center" }}>
         <Text style={{ color: 'white', alignSelf: "center" }}>Hello</Text>
         <CustomButton label='Получить' backgroundColor={COLORS.secondary} style={{ height: 50 }} onPress={() => { onPressHandker() }} />
-      </View>
-      {/*<MainContainer styles={{ backgroundColor: "black" }} />*/}
+  </View>*/}
+      {<MainContainer styles={{ backgroundColor: "black" }} />}
     </Provider>
   );
 }

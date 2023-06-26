@@ -45,7 +45,10 @@ function* fetchSignInWorker({ info }) {
             const json = yield call(() => new Promise((res) => res(data.json())));
             console.log(json);
         }
-    } else { console.log('Server is not responding...') }
+    } else {
+        console.log('Server is not responding...');
+        //yield put(UpdateFetchSignInRunning(false))
+    }
     yield put(UpdateFetchSignInRunning(false))
 }
 

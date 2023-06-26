@@ -9,7 +9,7 @@ export const Input = ({ label = 'Заголовок', maxLength = 20, onChangeTe
     return (
         <View style={[styles.container, style]}>
             {label ? <Text style={[styles.label, { color: inputColor }]}>{label}</Text> : <></>}
-            <TextInput placeholder={placeHolder} multiline={true} placeholderTextColor={COLORS.lightGray} onFocus={() => setinputColor(focusedInputColor)} onBlur={() => setinputColor(defaultInputColor)} secureTextEntry={secureTextEntry} style={[styles.input, { borderColor: inputColor, borderWidth: borderWidth, }]} maxLength={maxLength} onChangeText={(e) => { onChangeTextFunc(e) }} value={value} />
+            <TextInput placeholder={placeHolder} secureTextEntry={secureTextEntry} /*multiline={true}*/ placeholderTextColor={COLORS.lightGray} onFocus={() => setinputColor(focusedInputColor)} onBlur={() => setinputColor(defaultInputColor)} style={[styles.input, style, { borderColor: inputColor, borderWidth: borderWidth, }]} maxLength={maxLength} onChangeText={(e) => { onChangeTextFunc(e) }} value={value} />
         </View>
     )
 }

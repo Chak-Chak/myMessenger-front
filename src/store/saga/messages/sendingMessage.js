@@ -22,7 +22,7 @@ const Request = (accessToken, messageText, conversationId) => {
 }
 
 function* fetchSendingMessageWorker({ info }) {
-    console.log('INFO: ', info);
+    //console.log('INFO: ', info);
     const data = yield call(
         Request,
         info.accessToken,
@@ -32,12 +32,12 @@ function* fetchSendingMessageWorker({ info }) {
     if (data) {
         if (data.status == 200) {
             const json = yield call(() => new Promise((res) => res(data.json())));
-            console.log("RESULT: ", json)
+            //console.log("RESULT: ", json)
             //yield put(updateMyInfo(json.result));
         }
         else {
             const json = yield call(() => new Promise((res) => res(data.json())));
-            console.log(json);
+            //console.log(json);
         }
     } else { console.log('Server is not responding...') }
 }

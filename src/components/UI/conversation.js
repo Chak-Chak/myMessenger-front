@@ -24,8 +24,8 @@ export const ConversationLayout = ({ myInfo, data, userData, onPress }) => {
             }
             else {
                 if (dataTime.getUTCDay() < 10) {
-                    setTime(`${monthNames[dataTime.getUTCMonth()]} 0${dataTime.getUTCDay()}`);
-                } else setTime(`${monthNames[dataTime.getUTCMonth()]} ${dataTime.getUTCDay()}`);
+                    setTime(`${monthNames[dataTime.getUTCMonth()]} 0${dataTime.getUTCDate()}`);
+                } else setTime(`${monthNames[dataTime.getUTCMonth()]} ${dataTime.getUTCDate()}`);
             }
         } else setTime(dataTime.getUTCDay(), '.', dataTime.getUTCMonth(), '.', dataTime.getUTCFullYear());
     }

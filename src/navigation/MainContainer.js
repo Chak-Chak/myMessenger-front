@@ -13,15 +13,16 @@ import { SignInScreen } from "./screens/auth/SignInScreen";
 import { COLORS, TAB_NAMES } from "../../constans";
 import { ConversationsContainer } from "./ConversationsContainer";
 import { fetchGetMyInfo } from "../store/actions/myInfoAction";
+import { Text, View } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
-export const MainContainerLayout = ({ conv, signInInfo, UpdateIsTokensExist, fetchGetMyInfo }) => {
+export const MainContainerLayout = ({ conv, signInInfo, myInfo, UpdateIsTokensExist, fetchGetMyInfo }) => {
     useEffect(() => {
         CheckTokens();
-        if (signInInfo.isTokensExist) {
-            getAccessToken().then((value) => fetchGetMyInfo({ accessToken: value }));
-        }
+        //if (signInInfo.isTokensExist) {
+        getAccessToken().then((value) => fetchGetMyInfo({ accessToken: value }));
+        //}
     }, [signInInfo.isTokensExist])
 
     /*useEffect(() => {
@@ -44,36 +45,41 @@ export const MainContainerLayout = ({ conv, signInInfo, UpdateIsTokensExist, fet
 
     return (
         <>
-            {signInInfo.isTokensExist ?
-                < NavigationContainer >
-                    <Tab.Navigator
-                        initialRouteName={TAB_NAMES.conversationsTabName}
-                        screenOptions={({ route }) => ({
-                            tabBarIcon: ({ focused, color, size }) => {
-                                let iconName;
-                                let rn = route.name;
+            {myInfo.fetchMyInfoRunning ?
+                <View style={{ height: '100%', width: '100%', backgroundColor: 'black', justifyContent: "center" }}>
+                    <Text style={{ color: 'white', alignSelf: "center" }}>Загрузка...</Text>
+                </View>
+                :
+                signInInfo.isTokensExist ?
+                    < NavigationContainer >
+                        <Tab.Navigator
+                            initialRouteName={TAB_NAMES.conversationsTabName}
+                            screenOptions={({ route }) => ({
+                                tabBarIcon: ({ focused, color, size }) => {
+                                    let iconName;
+                                    let rn = route.name;
 
-                                if (rn === TAB_NAMES.conversationsTabName) {
-                                    iconName = focused ? 'mail-outline' : 'mail-outline';
-                                } else if (rn === TAB_NAMES.detailsTabName) {
-                                    iconName = focused ? 'list-outline' : 'list-outline';
-                                }
+                                    if (rn === TAB_NAMES.conversationsTabName) {
+                                        iconName = focused ? 'mail-outline' : 'mail-outline';
+                                    } else if (rn === TAB_NAMES.detailsTabName) {
+                                        iconName = focused ? 'list-outline' : 'list-outline';
+                                    }
 
-                                return <Ionicons name={iconName} size={size} color={color} />
-                            },
-                            tabBarActiveTintColor: COLORS.secondary,
-                            tabBarInactiveTintColor: COLORS.lightGray,
-                            tabBarLabelStyle: { fontSize: 10, paddingBottom: 0, paddingTop: 0, margin: 0 },
-                            tabBarStyle: { height: 50, backgroundColor: COLORS.primary, borderTopWidth: 0 },
-                            tabBarShowLabel: true,
-                            headerShown: false,
-                        })}
-                    >
+                                    return <Ionicons name={iconName} size={size} color={color} />
+                                },
+                                tabBarActiveTintColor: COLORS.secondary,
+                                tabBarInactiveTintColor: COLORS.lightGray,
+                                tabBarLabelStyle: { fontSize: 10, paddingBottom: 0, paddingTop: 0, margin: 0 },
+                                tabBarStyle: { height: 50, backgroundColor: COLORS.primary, borderTopWidth: 0 },
+                                tabBarShowLabel: true,
+                                headerShown: false,
+                            })}
+                        >
 
-                        <Tab.Screen name={TAB_NAMES.conversationsTabName} component={ConversationsContainer} />
-                        <Tab.Screen name={TAB_NAMES.detailsTabName} component={DetailsScreen} />
-                    </Tab.Navigator >
-                </NavigationContainer > : <SignInScreen />}
+                            <Tab.Screen name={TAB_NAMES.conversationsTabName} component={ConversationsContainer} />
+                            <Tab.Screen name={TAB_NAMES.detailsTabName} component={DetailsScreen} />
+                        </Tab.Navigator >
+                    </NavigationContainer > : <SignInScreen />}
         </>
     )
 }
@@ -81,7 +87,8 @@ export const MainContainerLayout = ({ conv, signInInfo, UpdateIsTokensExist, fet
 const mapStateToProps = (state) => {
     const signInInfo = state.signInReducer;
     const conv = state.conversationsReducer;
-    return { signInInfo, conv };
+    const myInfo = state.myInfoReducer;
+    return { signInInfo, conv, myInfo };
 };
 
 const mapDispatchToProps = (dispatch) =>
